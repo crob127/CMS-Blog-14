@@ -31,17 +31,23 @@ User.init(
         },
     },
     {
-        hooks: {
-            async beforeCreate(newUserData) {
-                newUserData.password = await argon2.hash(newUserData.password, 10);
-                return newUserData;
-            },
-        },
             sequelize,
             timestamps: false,
             freezeTableName: true,
             underscored: true,
-            modelName: 'user',               
+            modelName: 'user',     
+            hooks: {
+                beforeCreate: async (user) => {
+                    if (user.password) {
+                        user.password = await bcrypt.hash(user.password);
+                    }
+                },
+                beforeUpdate: async (user) => {
+                    if (user.password) {
+                        user.password = await bcrypt.hash(user.password);
+                    }
+                }
+            }          
     }
 );
 

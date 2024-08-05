@@ -1,0 +1,10 @@
+{{> header}}
+<main>
+    {{#each posts}}
+        <div class = "posts">
+            <h2>{{this.title}}</h2>
+            <p>{{this.contents}}</p>
+            <p>Posted by {{this.user.username}} on {{this.created_at}}</p>
+        </div>
+    {{/each}}
+</main>
